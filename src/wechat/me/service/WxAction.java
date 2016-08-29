@@ -74,6 +74,14 @@ public class WxAction {
 
     /**
      *  同步刷新，探知微信的状态
+     *  window.synccheck={retcode:"xxx",selector:"xxx"}
+     retcode:
+     0 正常
+     1100 失败/登出微信
+     selector:
+     0 正常
+     2 新的消息
+     7 进入/离开聊天界面
      */
     public static Map<String,String> syncCheck(){
         List<String> listurl = new ArrayList<String>();
@@ -82,7 +90,7 @@ public class WxAction {
         listurl.add("https://webpush1.wechat.com/cgi-bin/mmwebwx-bin/synccheck");
         listurl.add("https://webpush2.wechat.com/cgi-bin/mmwebwx-bin/synccheck");
         listurl.add("https://webpush.wechat.com/cgi-bin/mmwebwx-bin/synccheck");*/
-        System.out.println(WxTickets.getRedirectUrl());
+     /*   System.out.println(WxTickets.getRedirectUrl());*/
         for(int i=0;i<listurl.size();i++){
             String times=String.valueOf(System.currentTimeMillis());
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -112,6 +120,8 @@ public class WxAction {
                 Map<String,String> synccheck = new HashMap<String,String>();
                 synccheck.put("retcode", RegularExpressionHelp.getRetcode(result));
                 synccheck.put("selector",RegularExpressionHelp.getSelector(result));
+                WxTickets.setRetcode(RegularExpressionHelp.getRetcode(result));
+                WxTickets.setSelector(RegularExpressionHelp.getSelector(result));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -135,6 +145,19 @@ public class WxAction {
         HttpResponse response = HttpRequestHelp.post(url,headers,false,entity);
         try {
             String result = EntityUtils.toString(response.getEntity(),"utf-8");
+          /*  System.out.print(result);*/
+            JSONObject getobj = JSONObject.fromObject(result);
+            JSONObject obj =JSONObject.fromObject(getobj.getString("SyncKey"));
+            WxTickets.setOriginSyncKey(obj.toString());
+           /* System.out.println(obj.toString());*/
+            JSONArray list = obj.getJSONArray("List");
+            JSONObject js = (JSONObject) list.get(0);
+            String Synckey=String.valueOf(js.get("Key"))+"_"+String.valueOf(js.get("Val"));;
+            for(int i=1;i<list.size();i++){
+                js = (JSONObject) list.get(i);
+                Synckey +="|"+String.valueOf(js.get("Key"))+"_"+String.valueOf(js.get("Val"));
+            }
+            WxTickets.setSyncKey(Synckey);
             return result;
         } catch (IOException e) {
             e.printStackTrace();

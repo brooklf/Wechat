@@ -22,6 +22,24 @@ public class WxTickets {
     private static String webwx_data_ticket;
     private static String syncCookie;
     private static String originSyncKey;
+    private static String retcode="0";
+    private static String selector="0";
+
+    public static String getSelector() {
+        return selector;
+    }
+
+    public static void setSelector(String selector) {
+        WxTickets.selector = selector;
+    }
+
+    public static String getRetcode() {
+        return retcode;
+    }
+
+    public static void setRetcode(String retcode) {
+        WxTickets.retcode = retcode;
+    }
 
     public static String getOriginSyncKey() {
         return originSyncKey;

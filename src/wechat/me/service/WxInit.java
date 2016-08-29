@@ -55,7 +55,7 @@ public class WxInit {
     private static String filepath = "D:\\qrcode.jpg";                    // 二维码保存地址
     private static String basicUrl="https://login.weixin.qq.com/cgi-bin/mmwebwx-bin";
     private static Logger logger = Logger.getLogger(WxInit.class);
-
+    private static JFrame frame ;
     /**
      * 生成uuid
      */
@@ -112,7 +112,7 @@ public class WxInit {
     }
     public static void showImage(){
         logger.info("开始渲染二维码......");
-        JFrame frame = new ImageViewerFrame(filepath);
+        frame = new ImageViewerFrame(filepath);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         logger.info("二维码渲染成功请扫描......");
@@ -144,6 +144,8 @@ public class WxInit {
             }else if(statecode.equals("200")) {
                 logger.info("微信登陆成功......等待进行下一步操作...");
                 WxTickets.setRedirectUrl(httpResponseHelp.getRedirecturl());
+                frame.setVisible(false);
+
                 break;
             }else if(statecode.equals("408"))
                 logger.info("******第"+n+"次尝试登陆超时......******");
@@ -175,7 +177,7 @@ public class WxInit {
         }
         Header[] headerses = response.getAllHeaders();
         for(Header header:headerses){
-            System.out.println(header.getName()+"******"+header.getValue());
+    //        System.out.println(header.getName()+"******"+header.getValue());
             String value = header.getValue();
             if(RegularExpressionHelp.getWebwx_data_ticket(value)!=null)
                 WxTickets.setWebwx_data_ticket(RegularExpressionHelp.getWebwx_data_ticket(value));
@@ -192,8 +194,8 @@ public class WxInit {
      * 微信初始化，获取当前同步秘钥
      */
     public static void getWebwxInit(){
+        logger.info("开始获取同步秘钥......");
         Map<String,String> headers= new HashMap<String,String>();
-
         JSONObject jsonParam = new JSONObject();
         JSONObject baseJsonParam = new JSONObject();
         jsonParam.put("Uin",WxTickets.getWxuin());
@@ -211,6 +213,7 @@ public class WxInit {
          * 处理初始化信息
          */
         try {
+            logger.info("同步秘钥获取成功......");
             String json= EntityUtils.toString(entity1,"utf-8");
             JSONObject getobj = JSONObject.fromObject(json);
             JSONObject obj =JSONObject.fromObject(getobj.getString("SyncKey"));
@@ -227,9 +230,5 @@ public class WxInit {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
     }

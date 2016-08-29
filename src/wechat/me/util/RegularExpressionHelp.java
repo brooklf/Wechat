@@ -48,6 +48,8 @@ public class RegularExpressionHelp {
         return null;
     }
 
+
+
     public static void main(String args[]){
         String result ="window.synccheck={retcode:\"0\",selector:\"2\"}";
         System.out.println(RegularExpressionHelp.getRetcode(result));
