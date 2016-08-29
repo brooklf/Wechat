@@ -214,6 +214,7 @@ public class WxInit {
             String json= EntityUtils.toString(entity1,"utf-8");
             JSONObject getobj = JSONObject.fromObject(json);
             JSONObject obj =JSONObject.fromObject(getobj.getString("SyncKey"));
+            WxTickets.setOriginSyncKey(obj.toString());
             System.out.println(obj.toString());
             JSONArray list = obj.getJSONArray("List");
             JSONObject js = (JSONObject) list.get(0);

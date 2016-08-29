@@ -15,7 +15,10 @@ public class MainAction {
         WxInit.getInitParam();
         WxInit.getWebwxInit();
         System.out.println("webwx_data_ticket="+WxTickets.getWebwx_data_ticket());
-        WxAction.syncCheck();
+        for(int i=0;i<5;i++) {
+            WxAction.syncCheck();
+            WxAction.Webwxsync();
+        }
 
    /*   Contact.initContactList(WxAction.getContact(),myNickName);
         Map<String,Contact> contactMap = Contact.getContactsList();

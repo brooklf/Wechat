@@ -58,7 +58,6 @@ public class WxAction {
         entity.setContentEncoding("UTF-8");
         entity.setContentType("application/json");
 
-
         HttpResponse response = HttpRequestHelp.post(WxTickets.getBasicUrl()+"/webwxsendmsg?pass_ticket="+WxTickets.getPass_ticket(),headers,true,entity);
         HttpEntity entity1 = response.getEntity();
         try {
@@ -106,6 +105,7 @@ public class WxAction {
             }
             String url = listurl.get(i)+"?"+str;
             HttpResponse response=HttpRequestHelp.get(url,headers);
+            //提取状态码
             try {
                 String result =EntityUtils.toString(response.getEntity());
                 System.out.println(result);
@@ -120,9 +120,25 @@ public class WxAction {
     }
 
     /**
-     * 收取微信消息，返回所有消息的json
+     * 收取微信消息，返回所有消息的json串
      */
     public static String Webwxsync(){
+        String url = WxTickets.getBasicUrl()+"/webwxsync?sid="+WxTickets.getSid()+"&skey="+WxTickets.getSkey()+"&pass_ticket="+WxTickets.getPass_ticket();
+        JSONObject params = new JSONObject();
+        params.put("BaseRequest",JsonHelp.getBaseRequest());
+        params.put("SyncKey",WxTickets.getOriginSyncKey());
+        params.put("rr",String.valueOf(Math.abs(~System.currentTimeMillis())));
+        StringEntity entity = new StringEntity(params.toString(),"utf-8");//解决中文乱码问题
+        entity.setContentEncoding("UTF-8");
+        Map<String,String> headers = new HashMap<String,String>();
+        headers.put("cookie",WxTickets.getSyncCookie());
+        HttpResponse response = HttpRequestHelp.post(url,headers,false,entity);
+        try {
+            String result = EntityUtils.toString(response.getEntity(),"utf-8");
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

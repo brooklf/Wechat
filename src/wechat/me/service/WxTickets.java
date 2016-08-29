@@ -21,6 +21,15 @@ public class WxTickets {
     private static String syncKey;
     private static String webwx_data_ticket;
     private static String syncCookie;
+    private static String originSyncKey;
+
+    public static String getOriginSyncKey() {
+        return originSyncKey;
+    }
+
+    public static void setOriginSyncKey(String originSyncKey) {
+        WxTickets.originSyncKey = originSyncKey;
+    }
 
     public static String getSyncCookie() {
         syncCookie ="wxuin="+getWxuin()+";wxsid="+getSid()+";webwx_data_ticket="+getWebwx_data_ticket();
