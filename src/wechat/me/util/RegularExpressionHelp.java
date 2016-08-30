@@ -1,7 +1,11 @@
 package wechat.me.util;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import wechat.me.service.WxTickets;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +42,12 @@ public class RegularExpressionHelp {
         return null;
 
     }
+
+    /**
+     * 获取webwx_data_ticket
+     * @param result
+     * @return  成功返回webwx_data_ticket,失败返回null
+     */
     public static String getWebwx_data_ticket(String result){
         String getWebwx_data_ticketPattern="webwx_data_ticket=(.*?);";
         Pattern r2=Pattern.compile(getWebwx_data_ticketPattern);
@@ -48,12 +58,30 @@ public class RegularExpressionHelp {
         return null;
     }
 
+    public static Map<String,String> getMessage(String result){
+        JSONObject messageJson = JSONObject.fromObject(result);
+        JSONArray AddMsgList = (JSONArray) messageJson.get("AddMsgList");
+        JSONObject AddMsg = (JSONObject) AddMsgList.get(0);
+        String FromUserName = AddMsg.getString("FromUserName");
+        String Content = AddMsg.getString("Content");
+        Map<String,String> message = new HashMap<String,String>();
+        message.put("username",FromUserName);
+        message.put("content",Content);
+        return message;
+    }
+
 
 
     public static void main(String args[]){
-        String result ="window.synccheck={retcode:\"0\",selector:\"2\"}";
+        /*String result ="window.synccheck={retcode:\"0\",selector:\"2\"}";
         System.out.println(RegularExpressionHelp.getRetcode(result));
-        System.out.println(RegularExpressionHelp.getSelector(result));
+        System.out.println(RegularExpressionHelp.getSelector(result));*/
+        String result1=null;
+        JSONObject messageJson = JSONObject.fromObject(result1);
+        JSONArray AddMsgList = (JSONArray) messageJson.get("AddMsgList");
+        JSONObject AddMsg = (JSONObject) AddMsgList.get(0);
+        System.out.println(AddMsg.getString("Content"));
+
     }
 
 }

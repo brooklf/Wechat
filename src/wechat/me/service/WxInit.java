@@ -218,7 +218,7 @@ public class WxInit {
             JSONObject getobj = JSONObject.fromObject(json);
             JSONObject obj =JSONObject.fromObject(getobj.getString("SyncKey"));
             WxTickets.setOriginSyncKey(obj.toString());
-            System.out.println(obj.toString());
+   //         System.out.println(obj.toString());
             JSONArray list = obj.getJSONArray("List");
             JSONObject js = (JSONObject) list.get(0);
             String Synckey=String.valueOf(js.get("Key"))+"_"+String.valueOf(js.get("Val"));;

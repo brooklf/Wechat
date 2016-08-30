@@ -3,10 +3,7 @@ package wechat.me.service;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by JulyLe on 2016/8/23.
@@ -70,6 +67,20 @@ public class Contact {
             }
         }
     }
+
+    public static String getRemarkNameorNiceName(String userName){
+        Set<String> nicknameSet = contactsList.keySet();
+        for(String name :nicknameSet){
+            if(contactsList.get(name).getUserName().equals(userName)){
+                if(contactsList.get(name).getRemarkName()!=null)
+                    return contactsList.get(name).getRemarkName();
+                else
+                    return contactsList.get(name).getNickName();
+            }
+        }
+        return null;
+    }
+
 
     public static String getUsername(String nickName){
         return contactsList.get(nickName).getUserName();

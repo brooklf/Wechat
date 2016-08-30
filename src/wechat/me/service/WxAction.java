@@ -64,11 +64,13 @@ public class WxAction {
             /**
              * 判断是否发送成功逻辑
              */
-            System.out.println(EntityUtils.toString(entity1,"utf-8"));
+            String result =EntityUtils.toString(entity1,"utf-8");
+            logger.info("信息发送成功了...");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return false;
     }
 
@@ -116,7 +118,7 @@ public class WxAction {
             //提取状态码
             try {
                 String result =EntityUtils.toString(response.getEntity());
-                System.out.println(result);
+  //              System.out.println(result);
                 Map<String,String> synccheck = new HashMap<String,String>();
                 synccheck.put("retcode", RegularExpressionHelp.getRetcode(result));
                 synccheck.put("selector",RegularExpressionHelp.getSelector(result));
