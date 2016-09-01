@@ -1,5 +1,7 @@
 package wechat.me.UserInterface;
 
+import com.sun.deploy.panel.JavaPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,10 +9,20 @@ import java.awt.*;
  * Created by LemonTree on 2016/8/31.
  */
 public class MainFrame {
+    private static JTextArea chatArea;
+    private static JTextArea contactArea;
+    private static JComboBox contactBox;
+    private static JLabel imageHead;
+    private static JButton sendButton;
+    private static JTextField sendMessageField;
+    private static JFrame f;
+
+
     public static void main(String args[]){
-        JFrame f = new JFrame();
+        String[] strs = {"11111","22222","33333","44444","55555"};
+        f = new JFrame();
         Container contentPane = f.getContentPane();
-        GridBagLayout layout = new GridBagLayout();
+        GridLayout layout = new GridLayout(2,1);
         contentPane.setLayout(layout);
         f.setTitle("微信2.0");
         Image icon = Toolkit.getDefaultToolkit().getImage("D:\\weixingicon.jpg");
@@ -18,56 +30,33 @@ public class MainFrame {
         f.setSize(700,500);
         f.setLocationRelativeTo(null);
 
-        JLabel jLabel1=new JLabel("用户名");
-        JButton jbutton = new JButton("空白");
-        JButton jbutton1 = new JButton("空白1");
-        JTextArea jTextArea = new JTextArea();  //存放联系人
-        jTextArea.setText("等待微信初始化......");
-        JTextArea jTextArea1 = new JTextArea("消息记录");
-        jTextArea1.setBackground(Color.pink);
+        chatArea = new JTextArea();  //存放连天记录
+        chatArea.setText("等待聊天......");
+        JScrollPane scrollPane=new JScrollPane(chatArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        contentPane.add(jLabel1);
-        contentPane.add(jbutton);
-        contentPane.add(jbutton1);
-    /*    contentPane.add(jTextArea);
-        contentPane.add(jTextArea1);*/
+        contactArea = new JTextArea("联系人列表");
+        contactArea.setBackground(Color.pink);
 
-        GridBagConstraints ctr1 = new GridBagConstraints();
-        ctr1.fill = GridBagConstraints.BOTH;
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(2,1));
+        panel.add(contactArea);
 
-        ctr1.gridwidth=1;  //该方法是设置组件水平所占用的格子数，如果为0，就说明该组件是该行的最后一个
-        ctr1.weightx=0;     //该方法设置组件水平的拉伸幅度，如果为0就说明不拉伸，不为0就随着窗口增大进行拉伸，0到1之间
-        ctr1.weighty=0;     //该方法设置组件垂直的拉伸幅度，如果为0就说明不拉伸，不为0就随着窗口增大进行拉伸，0到1之间
-        layout.setConstraints(jLabel1,ctr1);
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(1,5));
+        contactBox =new JComboBox(strs);
+        Checkbox c= new Checkbox("AutoReply");
+        imageHead = new JLabel("hello world");
+        sendMessageField = new JTextField();
+        sendButton = new JButton("发送");
+        panel2.add(contactBox);
+        panel2.add(c);
+        panel2.add(imageHead);
+        panel2.add(sendMessageField);
+        panel2.add(sendButton);
+        panel.add(panel2);
+        contentPane.add(scrollPane);
+        contentPane.add(panel);
 
-        ctr1.gridwidth=5;
-        ctr1.weightx=0;
-        ctr1.weighty=0;
-        layout.setConstraints(jbutton,ctr1);
-
-        ctr1.gridwidth=2;
-        ctr1.weightx=0;
-        ctr1.weighty=0;
-        layout.setConstraints(jbutton1,ctr1);
-
-/*        ctr1.gridwidth=1;
-        ctr1.weightx=0;
-        ctr1.weighty=1;
-        layout.setConstraints(jTextArea,ctr1);
-
-        ctr1.gridwidth=0;
-        ctr1.weightx=0;
-        ctr1.weighty=0;
-        layout.setConstraints(jTextArea1,ctr1);*/
-
-
-
-/*        JTextArea jTextArea1 = new JTextArea();  //存放消息
-        jTextArea1.setCaretColor(Color.black);
-
-
-
-        JButton jButton = new JButton("发送");*/
 
 
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
