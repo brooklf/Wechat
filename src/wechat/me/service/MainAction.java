@@ -2,10 +2,7 @@ package wechat.me.service;
 
 import org.apache.log4j.Logger;
 import wechat.me.robot.TuringRobot;
-import wechat.me.thread.syncCheckThread;
-import wechat.me.util.JsonHelp;
 import wechat.me.util.RegularExpressionHelp;
-
 import java.util.Map;
 
 /**
@@ -67,8 +64,10 @@ public class MainAction {
                     }
 
                 }
-            }else{
+            }else if(WxTickets.getSelector().contains("0")){
                 logger.info("您的微信静悄悄的......");
+            }else{
+                break;
             }
 
         }

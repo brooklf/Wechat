@@ -2,8 +2,6 @@ package wechat.me.util;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import wechat.me.service.WxTickets;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
