@@ -14,13 +14,17 @@ public class MainAction {
     private static String myNickName="袁翔";
     private static int Count=0;
     private static boolean autoReply = true;
-    public static void main(String args[]){
+    public static void WxStart(){
         WxInit.generateUUID();
         WxInit.generateQRcode();
         WxInit.waitForLogin("1");
         WxInit.getInitParam();
         WxInit.getWebwxInit();
         Contact.initContactList(WxAction.getContact(),myNickName);
+    }
+
+    public static void main(String args[]){
+        WxStart();
         while(WxTickets.getRetcode().contains("0")){
             try {
                 Thread.sleep(1000);
