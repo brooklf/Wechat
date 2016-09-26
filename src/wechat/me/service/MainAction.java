@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class MainAction {
     private static Logger logger = Logger.getLogger(MainAction.class);
-    private static String myNickName="袁翔";
+    private static String myNickName="你的名字";
     private static int Count=0;
     private static boolean autoReply = true;
     public static void WxStart(){
